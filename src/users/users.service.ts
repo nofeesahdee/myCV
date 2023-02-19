@@ -44,4 +44,3 @@ export class UsersService {
     }
 }
 
-const usersService = new UsersService({} as any) 

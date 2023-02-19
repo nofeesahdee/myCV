@@ -86,18 +86,18 @@ describe('AuthService', () => {
         await expect(service.signup('asdf@asdf.com', 'asdf')).rejects.toThrow(
           BadRequestException,
         );
-      });
+    });
      
-      it('throws if signin is called with an unused email', async () => {
+    it('throws if signin is called with an unused email', async () => {
         await expect(
           service.signin('asdflkj@asdlfkj.com', 'passdflkj'),
         ).rejects.toThrow(NotFoundException);
-      });
+    });
      
-      it('throws if an invalid password is provided', async () => {
+    it('throws if an invalid password is provided', async () => {
         await service.signup('laskdjf@alskdfj.com', 'password');
         await expect(
           service.signin('laskdjf@alskdfj.com', 'laksdlfkj'),
         ).rejects.toThrow(BadRequestException);
-      });
+    });
 })
