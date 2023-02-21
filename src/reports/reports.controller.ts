@@ -5,6 +5,8 @@ import {
     UseGuards,
     Patch,
     Param,
+    Get,
+    Query,
  } from '@nestjs/common';
 import { AdminGuard } from 'src/guards/admin.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -13,6 +15,7 @@ import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { User } from 'src/users/user.entity';
 import { ApproveReportDto } from './dtos/approve-report.dto';
 import { CreateReportDto } from './dtos/create-report.dto';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 import { ReportDto } from './dtos/report.dto';
 import { ReportsService } from './reports.service';
 
@@ -21,6 +24,11 @@ export class ReportsController {
     constructor(
         private reportsService: ReportsService,
     ){}
+
+    @Get()
+    getEstimate(@Query() query:GetEstimateDto){
+        return this.reportsService.createEstimate(query)
+    }
 
     @Post('/')
     @UseGuards(AuthGuard)
@@ -53,10 +61,7 @@ export class ReportsController {
     //     return user
     // }
 
-    // @Get()
-    // findAllUser(@Query('email') email:string){
-    //     return this.usersService.find(email)
-    // }
+  
 
     // @Delete('/:id')
     // removeUser(@Param('id') id: string){
