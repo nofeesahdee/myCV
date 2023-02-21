@@ -1,8 +1,13 @@
 import { Expose, Transform } from "class-transformer";
+import { Column, Entity } from "typeorm";
 
+@Entity()
 export class ReportDto{
     @Expose()
     id:number 
+
+    // @Column({ default:false })
+    // approved: boolean;
 
     @Expose()
     price:number;
@@ -28,4 +33,7 @@ export class ReportDto{
     @Transform(({ obj }) => obj.user.id)
     @Expose()
     userId: number
+
+    @Expose()
+    approved:boolean
 }
