@@ -5,7 +5,11 @@ import {
     UseGuards,
  } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { CurrentUser } from 'src/users/decorators/current-user.decorator';
+import { User } from 'src/users/user.entity';
 import { CreateReportDto } from './dtos/create-report.dto';
+import { ReportDto } from './dtos/report.dto';
 import { ReportsService } from './reports.service';
 
 @Controller('reports')
@@ -27,11 +31,9 @@ export class ReportsController {
 
     @Post('/')
     @UseGuards(AuthGuard)
-    async createReport(@Body() body:CreateReportDto){
-        // const user = await this.authService.signup(body.email, body.password) 
-        // session.userId = user.id
-        // return user
-        return this.reportsService.create(body)
+    @Serialize(ReportDto)
+    async createReport(@Body() body:CreateReportDto, @CurrentUser() user:User){
+        return this.reportsService.create(body, user)
     }
 
     // @Post('/signin')
