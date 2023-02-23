@@ -8,16 +8,12 @@ import { ReportsModule } from './reports/reports.module';
 import { User } from './users/user.entity';
 import { Report } from './reports/report.entity';
 import { APP_PIPE } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 const cookieSession = require('cookie-session')
 
 @Module({
   imports:[
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'db.sqlite',
-      entities: [User, Report],
-      synchronize: true
-    }),
+    TypeOrmModule.forRoot(),
     UsersModule,
     ReportsModule
   ],
@@ -33,9 +29,13 @@ const cookieSession = require('cookie-session')
   ]
 })
 export class AppModule {
+  constructor(
+    private configService: ConfigService
+  ){}
+
   configure(consumer: MiddlewareConsumer){
     consumer.apply(cookieSession({
-        keys: ['jkhjdsk']
+        keys: [this.configService.get('COOKIE_KEY')]
       })
     )
     .forRoutes('*')
